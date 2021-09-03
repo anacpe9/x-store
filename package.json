@@ -51,6 +51,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.2",
     "jest": "27.0.6",
+    "pg-mem": "^1.9.17",
     "pg-promise": "^10.11.0",
     "prettier": "^2.3.2",
     "supertest": "^6.1.3",
