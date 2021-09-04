@@ -1,0 +1,26 @@
+http:
+  port: 3000
+
+db:
+  mongo:
+    options:
+      useFindAndModify: true ## True by default. Set to `false` to make `findOneAndUpdate()` and `findOneAndRemove()` use native `findOneAndUpdate()` rather than `findAndModify()`. */
+      useCreateIndex: true ## False by default. If `true`, this connection will use `createIndex()` instead of `ensureIndex()` for automatic index builds via `Model.init()`.
+      autoIndex: true ## Set to false to disable automatic index creation for all models associated with this connection.
+      autoCreate: true ## Set to `true` to make Mongoose automatically call `createCollection()` on every model created on this connection.
+
+  pg:
+    options:
+      # synchronize: true
+      ## retryAttempts?: number;
+      ## retryDelay?: number;
+      ## toRetry?: (err: any) => boolean;
+      ## autoLoadEntities?: boolean;
+      ## keepConnectionAlive?: boolean;
+      ## verboseRetryLog?: boolean;
+    connection:
+      url: ''
+
+auth:
+  jwt:
+    secrete: ''

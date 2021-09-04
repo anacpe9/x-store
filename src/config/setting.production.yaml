@@ -1,0 +1,7 @@
+http:
+  port: 3000
+
+db:
+  mongo:
+    url: 'mongodb://<usr>:<pwd>@<ip>:<port>/<database>'
+

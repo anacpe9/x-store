@@ -1,0 +1,14 @@
+http:
+  port: 3033
+
+db:
+  mongo:
+    url: 'mongodb://meetingApp:meetingService@localhost:27017/rh'
+
+  pg:
+    connection:
+      host: 'localhost'
+      port: 5432
+      username: 'root'
+      password: 'pgAPassword'
+      database: 'root'
