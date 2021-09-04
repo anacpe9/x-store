@@ -15,7 +15,7 @@ import { createConnection, getManager } from 'typeorm';
           type: 'postgres',
           // url: pgConfig.url,
           host: pgConfig.connection.host,
-          port: pgConfig.connection.port,
+          port: +pgConfig.connection.port,
           username: pgConfig.connection.username,
           password: pgConfig.connection.password,
           database: pgConfig.connection.database,

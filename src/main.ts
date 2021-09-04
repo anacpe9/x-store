@@ -16,11 +16,12 @@ function setupSwagger(app: INestApplication) {
     .setVersion('0.0.1')
     .addServer('/')
     .addServer('/data')
-    .addApiKey({
-      type: 'apiKey',
-      name: 'access-token',
-      in: 'header',
-    })
+    .addBasicAuth()
+    // .addApiKey({
+    //   type: 'apiKey',
+    //   name: 'access-token',
+    //   in: 'header',
+    // })
     .build();
 
   const swaggerCustomOptions: SwaggerCustomOptions = {

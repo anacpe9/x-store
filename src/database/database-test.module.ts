@@ -23,6 +23,7 @@ export const rootMongooseTestModule = () =>
       Logger.log('pg-mem: Connection creating ...');
       const connection = await db.adapters.createTypeormConnection({
         type: 'postgres',
+        synchronize: true,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
       });
 

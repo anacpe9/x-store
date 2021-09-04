@@ -1,5 +1,9 @@
 http:
   port: 3033
+  auth:
+    basic:
+      username: 'user1'
+      password: 'pass1'
 
 db:
   mongo:

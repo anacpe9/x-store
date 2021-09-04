@@ -1,7 +1,18 @@
 http:
   port: 3000
+  auth:
+    basic:
+      username: '%%BASIC_USERNAME%%'
+      password: '%%BASIC_PASSWORD%%'
 
 db:
   mongo:
-    url: 'mongodb://<usr>:<pwd>@<ip>:<port>/<database>'
+    url: 'mongodb://%%MONGO_USERNAME%%:%%MONGO_PASSWORD%%@%%MONGO_HOST%%:%%MONGO_PORT%%/%%MONGO_DATABASE%%'
 
+  pg:
+    connection:
+      host: '%%PG_HOST%%'
+      port: '%%PG_PORT%%'
+      username: '%%PG_USERNAME%%'
+      password: '%%PG_PASSWORD%%'
+      database: '%%PG_DATABASE%%'

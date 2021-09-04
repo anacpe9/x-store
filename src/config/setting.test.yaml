@@ -1,2 +1,6 @@
 http:
   port: 3001
+  auth:
+    basic:
+      username: 'user1'
+      password: 'pass1'
