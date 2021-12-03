@@ -657,9 +657,9 @@
     webpack-node-externals "3.0.0"
 
 "@nestjs/common@^8.0.0":
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-8.2.2.tgz#44bbdd85ce7918083b04b00e2e88204cb655587a"
-  integrity sha512-Qy8GUFwV34YCw34fbFkyBi9bhDPPBacVhZMUxVUmnoqBL8GEdSpPDzW6epbl+IF1Q6TACK5L8WvTkd5V3/Eifw==
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-8.2.3.tgz#77ac1ef59c36dd9ae131f5c5ddabfc6258802d1c"
+  integrity sha512-slXVVMc9tZG6ZaARXkTUsSqZbkEcc0hVKb4mPLxS9mjXmDspUleGQakZ5OzniiEWqzO299BVlEbm6TGyoGbpNg==
   dependencies:
     axios "0.24.0"
     iterare "1.2.1"
@@ -667,9 +667,9 @@
     uuid "8.3.2"
 
 "@nestjs/config@^1.0.1":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/config/-/config-1.1.0.tgz#71b7030355a3b3c0e1872a8083dbf5e192d96ce5"
-  integrity sha512-/HsxSAxBNDihFqsHata/fTCpibOplw1G8lUc6ow62GKEBWvftNo+XaoAC6UwYHdU+Xo1VG2E8T3uCqFGhInK5w==
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/config/-/config-1.1.5.tgz#6242274706e5b0d4849eb3217b47fdabd63182dc"
+  integrity sha512-xSpp/6TIHFhicuuwRu2fFGmClzN+YXtpVSLGX3LT9iAwtNDcccX3qVDOX1BLdFdBbqZTqT3KezsT+iE/czd/xg==
   dependencies:
     dotenv "10.0.0"
     dotenv-expand "5.1.0"
@@ -679,9 +679,9 @@
     uuid "8.3.2"
 
 "@nestjs/core@^8.0.0":
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-8.2.2.tgz#4ad1608be81090a6e2b734f718c7e70de3826328"
-  integrity sha512-89ChFrPfePOlcEqpCYU+tExsGZTXxyieVIrRZXqxxbxhS6sf2VqF84zXK9NhVqISZdDwGmDTy+yKu0k2h/FHVA==
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-8.2.3.tgz#26fb3858df586b00362d1bd492ba432698590d67"
+  integrity sha512-CP/Z+uTEdblTZQXRf+xvZHvESZ6v2vxX/YaRcpJDv/ytgxxOafmOJ/RDKSzNOGBkt8kVwYNFpWXzzll4P5AJ0g==
   dependencies:
     "@nuxtjs/opencollective" "0.3.2"
     fast-safe-stringify "2.1.1"
@@ -697,9 +697,9 @@
   integrity sha512-26AW5jHadLXtvHs+M+Agd9KZ92dDlBrmD0rORlBlvn2KvsWs4JRaKl2mUsrW7YsdZeAu3Hc4ukqyYyDdyCmMWQ==
 
 "@nestjs/platform-express@^8.0.0":
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-8.2.2.tgz#08d732c6fbcc38adbea0f0722321c460a73aab10"
-  integrity sha512-oguwjj5nZ0StC8ZakMy+lAPp8Fxnq/mmH6QXamYdMIo37UX4AsNUshaOYGTfEgO0Hp2rH0pPpkRo3/b5n59M7w==
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-8.2.3.tgz#8254c112658395f1e1f26e27a96538159e29f0d9"
+  integrity sha512-x8pyUpoKU8KUMYYwGiG17UXu818RUa6YCPu5Jvyq9P6G37ZfOAERYu3yveg9G5Q6YL6Z7jXAW9ojy+lWQXXhng==
   dependencies:
     body-parser "1.19.0"
     cors "2.8.5"
