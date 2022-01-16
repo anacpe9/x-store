@@ -8,22 +8,19 @@ import {
 } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import { Constants } from './common/constants';
 
 function setupSwagger(app: INestApplication) {
-  const swaggerOptions = new DocumentBuilder()
-    .setTitle('Workplace Plus Server')
-    .setDescription('Workplace Plus Server, Backend and Management API')
-    .setVersion('0.0.1')
-    .addServer('/')
-    .addServer('/data')
-    .addBasicAuth()
-    // .addApiKey({
-    //   type: 'apiKey',
-    //   name: 'access-token',
-    //   in: 'header',
-    // })
-    .build();
+  const documentBuilder = new DocumentBuilder()
+    .setTitle(Constants.APP_NAME)
+    .setDescription(Constants.APP_DESCRIPTION)
+    .setVersion(Constants.APP_VERSION)
+    .addBasicAuth();
 
+  const servers = process.env.SWAGGER_BASE_API ? [process.env.SWAGGER_BASE_API] : ['/', '/api', '/data'];
+  servers.forEach((path) => documentBuilder.addServer(path));
+
+  const swaggerOptions = documentBuilder.build();
   const swaggerCustomOptions: SwaggerCustomOptions = {
     swaggerOptions: {
       docExpansion: 'none',
@@ -57,7 +54,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('http.port') || 3000;
 
-  if (env === 'development') setupSwagger(app);
+  if (process.env.ENABLE_SWAGGER === 'true' || env !== 'production') setupSwagger(app);
 
   await app.listen(port);
   Logger.log(`Application started and listen on ${await app.getUrl()}`);
