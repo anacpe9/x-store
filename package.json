@@ -27,14 +27,14 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.0.9",
     "@nestjs/typeorm": "^8.0.2",
-    "dayjs": "1.10.7",
+    "dayjs": "1.10.8",
     "merge-yaml": "^1.1.0",
     "pg": "8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "7.5.2",
+    "rxjs": "7.5.4",
     "swagger-ui-express": "4.3.0",
-    "typeorm": "0.2.41"
+    "typeorm": "0.2.44"
   },
   "devDependencies": {
     "@nestjs/cli": "8.2.2",
