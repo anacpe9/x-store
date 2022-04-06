@@ -1,11 +1,7 @@
 import { Logger, INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import {
-  DocumentBuilder,
-  SwaggerCustomOptions,
-  SwaggerModule,
-} from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { Constants } from './common/constants';
@@ -56,7 +52,7 @@ async function bootstrap() {
 
   if (process.env.ENABLE_SWAGGER === 'true' || env !== 'production') setupSwagger(app);
 
-  await app.listen(port);
+  await app.listen(+port);
   Logger.log(`Application started and listen on ${await app.getUrl()}`);
 }
 bootstrap();
