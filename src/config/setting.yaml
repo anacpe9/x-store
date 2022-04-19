@@ -23,4 +23,4 @@ db:
 
 auth:
   jwt:
-    secrete: ''
+    secret: ''
