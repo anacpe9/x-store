@@ -1,12 +1,27 @@
 # compiled output
-/dist
+dist/*
+!/dist/.gitkeep
+!/dist/v1
+!/dist/v2
+!/dist/v3
+
+/tmp
+/out-tsc
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json.default
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# dependencies
 /node_modules
 
 # Logs
 logs
 *.log
 npm-debug.log*
-pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
@@ -33,3 +48,26 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Mock API
+/api/node_modules
+
+# compiled templates
+src/app/homepage/pages/**/*.html
