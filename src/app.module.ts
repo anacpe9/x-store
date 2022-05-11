@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
+import { AppRouteLoggerMiddleware } from './app-route-logger.middleware';
 
 import configuration from './configurations';
 
@@ -23,4 +24,11 @@ const dbModule =
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AppRouteLoggerMiddleware)
+      .exclude('/access-control(/+)(.*)', '/health-check(.*)', '/worker(/+)(.*)')
+      .forRoutes('/');
+  }
+}
