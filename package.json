@@ -54,7 +54,7 @@
     "pg-mem": "2.3.5",
     "pg-promise": "10.11.1",
     "prettier": "2.6.2",
-    "supertest": "6.2.2",
+    "supertest": "6.2.3",
     "ts-jest": "28.0.2",
     "ts-loader": "9.3.0",
     "ts-node": "10.7.0",
