@@ -1,3 +1,6 @@
+app:
+  config_prefix: 'X'
+
 http:
   port: 3000
 

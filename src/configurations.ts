@@ -2,7 +2,6 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import * as mergeYaml from 'merge-yaml';
 
-const ACTIVATE_ENV_LIST_FILENAME = 'config/activate-env-config.json';
 const YAML_BASE_CONFIG_FILENAME = 'config/setting.yaml';
 const YAML_ENV_CONFIG_FILENAME = `config/setting.${process.env.NODE_ENV || 'development'}.yaml`;
 
@@ -16,18 +15,25 @@ export default () => {
     const cfg = mergeYaml(files) as Record<string, any>;
 
     // override config by environment
-    if (existsSync(join(__dirname, ACTIVATE_ENV_LIST_FILENAME))) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const envs = require(join(__dirname, ACTIVATE_ENV_LIST_FILENAME));
-      for (const env of envs) {
-        if (process.env[env[0]]) {
-          const attrib = env[1].split('.');
-          const cfgPth = _ensureConfigPath(cfg, env[1]);
-          const cfgAtr = attrib[attrib.length - 1];
+    // double underscore eq underscore
+    // underscore eq dot
+    // example: X_APP_X__Y_Z --> test.x_y.z
+    const rawConfigPrefix = cfg.app?.config_prefix || 'X';
+    const configPrefix = `${rawConfigPrefix}_`;
+    const precessEnv = Object.entries(process.env);
+    const envs = precessEnv.filter((ekv) => ekv[0].startsWith(configPrefix));
+    for (const kv of envs) {
+      const key = kv[0]
+        .replace(configPrefix, '')
+        .replace(/__/g, '//')
+        .replace(/_/g, '.')
+        .replace(/\/\//g, '_')
+        .toLowerCase();
+      const attrib = key.split('.');
+      const cfgPth = _ensureConfigPath(cfg, key);
+      const cfgAtr = attrib[attrib.length - 1];
 
-          cfgPth[cfgAtr] = process.env[env[0]];
-        }
-      }
+      cfgPth[cfgAtr] = process.env[kv[1]];
     }
 
     return cfg;
