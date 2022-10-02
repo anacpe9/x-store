@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { version, name, description } = require('./../../package.json');
+const { version, name, description } = require('../../package.json');
 
 // export APP_VERSION: string = version;
 // export APP_NAME: string = name;
