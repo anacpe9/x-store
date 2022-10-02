@@ -1,7 +1,7 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Logger, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { createConnection, getManager } from 'typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -13,6 +13,7 @@ import { createConnection, getManager } from 'typeorm';
 
         return {
           type: 'postgres',
+          // type: 'postgres',
           // url: pgConfig.url,
           host: pgConfig.connection.host,
           port: +pgConfig.connection.port,
@@ -21,21 +22,26 @@ import { createConnection, getManager } from 'typeorm';
           database: pgConfig.connection.database,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: true,
-        };
+        } as TypeOrmModuleOptions;
       },
-      connectionFactory: async (options) => {
-        Logger.log('Postgres: Connection creating ...');
-        const connection = await createConnection(options);
+      dataSourceFactory: async (options) => {
+        Logger.log('Postgres: DataSource creating ...');
+        const ds = new DataSource(options);
 
-        Logger.log('Postgres: Connection connected.');
-        const manager = await getManager(connection.name);
+        Logger.log('pg-mem: DataSource initialize ...');
+        await ds.initialize();
 
-        Logger.log('Postgres: Connection testing ...');
-        const result = await manager.query('SELECT now() AS curr_time');
-        Logger.log(`Postgres: ${result[0].curr_time}`);
+        if (options.synchronize) {
+          Logger.log('pg-mem: Staring synchronize ...');
+          await ds.synchronize();
+        }
 
-        Logger.log('Postgres: Connection confirm.');
-        return connection;
+        Logger.log('pg-mem: DataSource testing ...');
+        const result = await ds.query('SELECT now() AS curr_time');
+        Logger.log(`'Postgres: ${result[0].curr_time}`);
+
+        Logger.log('pg-mem: DataSource confirm.');
+        return ds;
       },
     }),
   ],

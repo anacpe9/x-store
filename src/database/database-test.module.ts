@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { newDb } from 'pg-mem';
-import { Connection, getManager } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
 const db = newDb({
@@ -27,6 +27,12 @@ db.public.registerFunction({
   name: 'current_database',
 });
 
+db.public.registerFunction({
+  implementation: () =>
+    'PostgreSQL 11.17 (Debian 11.17-0+deb10u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit',
+  name: 'version',
+});
+
 // Problem with big decimal field on table creation
 // https://lightrun.com/answers/oguimbal-pg-mem-problem-with-big-decimal-field-on-table-creation
 db.public.interceptQueries((sql) => {
@@ -47,26 +53,27 @@ export const rootMongooseTestModule = () =>
   TypeOrmModule.forRootAsync({
     imports: [ConfigModule.forRoot()],
     inject: [ConfigService],
-    connectionFactory: async (): Promise<Connection> => {
-      Logger.log('pg-mem: Connection creating ...');
-      const connection = await db.adapters.createTypeormConnection({
+    dataSourceFactory: async (): Promise<DataSource> => {
+      Logger.log('pg-mem: DataSource creating ...');
+
+      const ds: DataSource = await db.adapters.createTypeormDataSource({
         type: 'postgres',
         // synchronize: true,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       });
 
-      Logger.log('pg-mem: Connection connected.');
-      const manager = await getManager(connection.name);
-
-      Logger.log('pg-mem: Connection testing ...');
-      const result = await manager.query('SELECT now() AS curr_time');
-      Logger.log(`'Postgres: ${result[0].curr_time}`);
+      Logger.log('pg-mem: DataSource initialize ...');
+      await ds.initialize();
 
       Logger.log('pg-mem: Staring synchronize ...');
-      await connection.synchronize();
+      await ds.synchronize();
 
-      Logger.log('pg-mem: Connection confirm.');
-      return connection;
+      Logger.log('pg-mem: DataSource testing ...');
+      const result = await ds.query('SELECT now() AS curr_time');
+      Logger.log(`'Postgres: ${result[0].curr_time}`);
+
+      Logger.log('pg-mem: DataSource confirm.');
+      return ds;
     },
     useFactory: async (configService: ConfigService) => {
       const pgConfig = configService.get('db.pg');
@@ -77,6 +84,6 @@ export const rootMongooseTestModule = () =>
         // entities: [__dirname + '/**/*.entity{.ts,.js}'],
         // synchronize: true,
         ...options,
-      };
+      } as TypeOrmModuleOptions;
     },
   });
