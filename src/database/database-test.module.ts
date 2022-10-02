@@ -21,6 +21,23 @@ db.public.registerFunction({
   name: 'uuid_generate_v4',
 });
 
+// https://issueexplorer.com/issue/oguimbal/pg-mem/148
+db.public.registerFunction({
+  implementation: () => 'test',
+  name: 'current_database',
+});
+
+// Problem with big decimal field on table creation
+// https://lightrun.com/answers/oguimbal-pg-mem-problem-with-big-decimal-field-on-table-creation
+db.public.interceptQueries((sql) => {
+  const newSql = sql.replace(/\bnumeric\s*\(\s*\d+\s*,\s*\d+\s*\)/g, 'float');
+  if (sql !== newSql) {
+    return db.public.many(newSql);
+  }
+  // proceed to actual SQL execution for other requests.
+  return null;
+});
+
 // let pg: any; // MongoMemoryServer;
 export const closeConnection = async () => {
   return Promise.resolve(true);
