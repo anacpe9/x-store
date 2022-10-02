@@ -50,6 +50,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('http.port') || 3000;
 
+  process.on('unhandledRejection', (reason, promise) => {
+    Logger.warn('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
+
   if (process.env.ENABLE_SWAGGER === 'true' || env !== 'production') setupSwagger(app);
 
   await app.listen(+port);
