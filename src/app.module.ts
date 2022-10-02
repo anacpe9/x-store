@@ -2,16 +2,32 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './database/database.module';
+import { MongooseDatabaseModule } from './database/mongo/mongoose-database.module';
+import { PostgresDatabaseModule } from './database/postgres/pg-database.module';
 import { AppRouteLoggerMiddleware } from './app-route-logger.middleware';
 
 import configuration from './configurations';
 
-const dbModule =
-  process.env.NODE_ENV === 'test'
-    ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-      require('./database/database-test.module').rootMongooseTestModule()
-    : DatabaseModule;
+const config = configuration();
+const dbModules: any[] = [];
+
+if (config?.db?.pg?.activate) {
+  const dbModule =
+    process.env.NODE_ENV === 'test'
+      ? // eslint-disable-next-line @typescript-eslint/no-var-requires
+        require('./database/postgres/pg-database-test.module').rootMongooseTestModule()
+      : PostgresDatabaseModule;
+  dbModules.push(dbModule);
+}
+
+if (config?.db?.mongo?.activate) {
+  const dbModule =
+    process.env.NODE_ENV === 'test'
+      ? // eslint-disable-next-line @typescript-eslint/no-var-requires
+        require('./database/mongo/mongoose-database-test.module').rootMongooseTestModule()
+      : MongooseDatabaseModule;
+  dbModules.push(dbModule);
+}
 
 @Module({
   imports: [
@@ -19,7 +35,7 @@ const dbModule =
       isGlobal: true,
       load: [configuration],
     }),
-    dbModule,
+    ...dbModules,
   ],
   controllers: [AppController],
   providers: [AppService],

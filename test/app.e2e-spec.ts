@@ -1,3 +1,4 @@
+import { closeInMongodConnection } from './../src/database/mongo/mongoose-database-test.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
@@ -6,6 +7,10 @@ import { AppModule } from './../src/app.module';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let httpServer: any;
+
+  afterAll(async () => {
+    await closeInMongodConnection();
+  });
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
