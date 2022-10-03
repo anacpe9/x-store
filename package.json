@@ -1,7 +1,7 @@
 {
-  "name": "nestjs-boilerplate",
+  "name": "x-store",
   "version": "0.0.1",
-  "description": "Boilerplate repo to initiate Nestjs project",
+  "description": "Core service for the booke store system.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
