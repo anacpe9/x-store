@@ -24,7 +24,7 @@ export class AppRouteLoggerMiddleware implements NestMiddleware {
     const startAt = process.hrtime();
 
     function onFinish() {
-      clearTimeout(timeout);
+      // clearTimeout(timeout);
 
       const code = res.statusCode;
       const diff = process.hrtime(startAt);
@@ -33,13 +33,14 @@ export class AppRouteLoggerMiddleware implements NestMiddleware {
       AppRouteLoggerMiddleware.printLog(req, res, `${time.toFixed(2)}ms`, method, code.toString(), route);
     }
 
-    const timeout = setTimeout(() => {
-      res.off('finish', onFinish);
+    // const timeout = setTimeout(() => {
+    //   res.off('finish', onFinish);
 
-      AppRouteLoggerMiddleware.printLog(req, res, 'TIMEOUT', method, '', route);
-    }, 15 * 1000);
+    //   AppRouteLoggerMiddleware.printLog(req, res, 'TIMEOUT', method, '', route);
+    // }, 15 * 1000);
 
-    res.on('finish', onFinish);
+    // res.once('finish', onFinish);
+    req.once('close', onFinish);
     next();
   }
 }
