@@ -29,3 +29,12 @@ db:
 auth:
   jwt:
     secret: ''
+    algorithms:  '' # RS256, ES256, ES384, ES512
+    public_key:  '' # base64 string, public key
+    private_key: '' # base64 string, private key
+
+# ES256: secp256k1
+# ES384: secp384r1
+# ES512: secp521r1
+# openssl ecparam -name secp256k1 -genkey -noout -out ec-secp256k1-priv-key.pem
+# openssl ec -in ec-secp256k1-priv-key.pem -pubout > ec-secp256k1-pub-key.pem

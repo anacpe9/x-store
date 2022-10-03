@@ -7,12 +7,11 @@ http:
 
 db:
   mongo:
-    url: 'mongodb://meetingApp:meetingService@localhost:27017/rh'
+    url: 'mongodb://xApp:xService@localhost:27017/x-store'
 
-  pg:
-    connection:
-      host: 'localhost'
-      port: 5432
-      username: 'root'
-      password: 'pgAPassword'
-      database: 'root'
+auth:
+  jwt:
+    secret: ''
+    algorithms: 'ES256' # RS256, ES256, ES384, ES512
+    public_key: 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZZd0VBWUhLb1pJemowQ0FRWUZLNEVFQUFvRFFnQUV1ZTVCbWViQitlUjVlbUNPWW1BWTVSMWRKQ1h5UFFtUgo1aGZ0SDlrNVBueFhxenhyU3pWbC9wMW94bDJscDFsZ2k2RVVLSm9Ic2JETVZMcEdXZHRGNnc9PQotLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0K'
+    private_key: 'LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IUUNBUUVFSUg0MlUwZTVKK3BtUTdvbXJKT0N6UmtIQ2drb3RVUEtBVWZCeitlUWdERmxvQWNHQlN1QkJBQUsKb1VRRFFnQUV1ZTVCbWViQitlUjVlbUNPWW1BWTVSMWRKQ1h5UFFtUjVoZnRIOWs1UG54WHF6eHJTelZsL3Axbwp4bDJscDFsZ2k2RVVLSm9Ic2JETVZMcEdXZHRGNnc9PQotLS0tLUVORCBFQyBQUklWQVRFIEtFWS0tLS0tCg=='
