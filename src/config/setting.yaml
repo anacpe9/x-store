@@ -13,18 +13,18 @@ db:
       autoIndex: true ## Set to false to disable automatic index creation for all models associated with this connection.
       autoCreate: true ## Set to `true` to make Mongoose automatically call `createCollection()` on every model created on this connection.
 
-  pg:
-    activate: true
-    options:
-      # synchronize: true
-      ## retryAttempts?: number;
-      ## retryDelay?: number;
-      ## toRetry?: (err: any) => boolean;
-      ## autoLoadEntities?: boolean;
-      ## keepConnectionAlive?: boolean;
-      ## verboseRetryLog?: boolean;
-    connection:
-      url: ''
+  # pg:
+  #   activate: true
+  #   options:
+  #     # synchronize: true
+  #     ## retryAttempts?: number;
+  #     ## retryDelay?: number;
+  #     ## toRetry?: (err: any) => boolean;
+  #     ## autoLoadEntities?: boolean;
+  #     ## keepConnectionAlive?: boolean;
+  #     ## verboseRetryLog?: boolean;
+  #   connection:
+  #     url: ''
 
 auth:
   jwt:

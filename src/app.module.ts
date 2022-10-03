@@ -11,14 +11,14 @@ import configuration from './configurations';
 const config = configuration();
 const dbModules: any[] = [];
 
-if (config?.db?.pg?.activate) {
-  const dbModule =
-    process.env.NODE_ENV === 'test'
-      ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-        require('./database/postgres/pg-database-test.module').rootMongooseTestModule()
-      : PostgresDatabaseModule;
-  dbModules.push(dbModule);
-}
+// if (config?.db?.pg?.activate) {
+//   const dbModule =
+//     process.env.NODE_ENV === 'test'
+//       ? // eslint-disable-next-line @typescript-eslint/no-var-requires
+//         require('./database/postgres/pg-database-test.module').rootMongooseTestModule()
+//       : PostgresDatabaseModule;
+//   dbModules.push(dbModule);
+// }
 
 if (config?.db?.mongo?.activate) {
   const dbModule =
