@@ -1,4 +1,4 @@
-FROM %%BASE_IMAGE%%:%%BASE_IMAGE_VERSION%%-builder AS build
+FROM %%BASE_IMAGE%%:%%BASE_IMAGE_VERSION%%-builder AS builder
 WORKDIR /app
 
 COPY package.json yarn.lock ./
@@ -17,8 +17,8 @@ FROM %%BASE_IMAGE%%:%%BASE_IMAGE_VERSION%%
 LABEL maintainer="Anucha Nualsi <ana.cpe9@gmail.com>"
 
 WORKDIR /app
-COPY --from=build /app/node_modules ./node_modules/
-COPY --from=build /app/dist ./
+COPY --from=builder /app/node_modules ./node_modules/
+COPY --from=builder /app/dist ./
 
 EXPOSE 3000
 CMD ["node", "main.js"]
