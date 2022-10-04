@@ -105,7 +105,7 @@ describe('AppController (e2e)', () => {
 
   it('(GET) /purchased - with userToken, must success', async () => {
     const res = await request(httpServer)
-      .get('/books/purchased')
+      .get('/purchased')
       .set('Accept', 'application/json')
       .set('acl-token', `${userToken}`);
 

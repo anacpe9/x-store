@@ -2,7 +2,7 @@ import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 
 export class BookDto {
   @ApiProperty({ description: 'Book ID' })
-  _id: string;
+  id: string;
 
   @ApiProperty({ description: 'Book Title' })
   title: string;
@@ -34,10 +34,3 @@ export class BookDto {
   @ApiProperty({ description: 'Description' })
   description: string;
 }
-
-export class PurchasedDateDto {
-  @ApiProperty({ description: 'Purchased Book' })
-  purchaseDate: number;
-}
-
-export class PurchasedBookDto extends IntersectionType(BookDto, PurchasedDateDto) {}

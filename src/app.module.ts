@@ -17,6 +17,7 @@ import { PurchasedBook, PurchasedBookSchema } from './common/database/schemas/pu
 import configuration from './configurations';
 import { HttpModule } from '@nestjs/axios';
 import { BooksController } from './books/books.controller';
+import { PurchasedController } from './purchased/purchased.controller';
 
 const config = configuration();
 const dbModules: any[] = [];
@@ -72,7 +73,7 @@ if (config?.db?.mongo?.activate) {
       }),
     }),
   ],
-  controllers: [AppController, BooksController],
+  controllers: [AppController, BooksController, PurchasedController],
   exports: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService, AuthzService],
   providers: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService, AuthzService],
 })
