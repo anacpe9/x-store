@@ -1,6 +1,6 @@
 {
   "name": "x-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Core service for the book store system.",
   "author": "",
   "private": true,
