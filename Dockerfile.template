@@ -7,7 +7,7 @@ RUN NODE_ENV=development yarn install
 COPY . .
 RUN NODE_ENV=development yarn run build
 
-RUN sed -i 's/.\/..\/..\/package.json/.\/..\/package.json/g' dist/common/constants.js
+RUN sed -i 's/..\/..\/package.json/..\/package.json/g' dist/common/constants.js
 RUN NODE_ENV=production yarn install  --frozen-lockfile --production
 RUN node -e 'const package = require("./package.json"); const str = JSON.stringify({name: package.name, version: package.version, description: package.description, license: package.license, private: package.private}, null, 2); console.log(str);' > dist/package.json
 RUN find ./ -type f -name '*.d.ts' -delete
