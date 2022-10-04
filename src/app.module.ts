@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { DynamicModule, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,10 +6,14 @@ import { MongooseDatabaseModule } from './common/database/mongo/mongoose-databas
 // import { PostgresDatabaseModule } from './common/database/postgres/pg-database.module';
 import { AppRouteLoggerMiddleware } from './app-route-logger.middleware';
 import { PassportModule } from '@nestjs/passport';
+import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtIgnoreExpirationStrategy, JwtStrategy } from './authz/jwt.guard';
+import { InitialDataService } from './common/services/initial-data/initial-data.service';
 
+import { Book, BookSchema } from './common/database/schemas/books.schema';
 import configuration from './configurations';
+import { HttpModule } from '@nestjs/axios';
 
 const config = configuration();
 const dbModules: any[] = [];
@@ -23,6 +27,7 @@ const dbModules: any[] = [];
 //   dbModules.push(dbModule);
 // }
 
+const mongooseModules: DynamicModule[] = [];
 if (config?.db?.mongo?.activate) {
   const dbModule =
     process.env.NODE_ENV === 'test'
@@ -30,6 +35,7 @@ if (config?.db?.mongo?.activate) {
         require('./common/database/mongo/mongoose-database-test.module').rootMongooseTestModule()
       : MongooseDatabaseModule;
   dbModules.push(dbModule);
+  mongooseModules.push(MongooseModule.forFeature([{ name: Book.name, schema: BookSchema }]));
 }
 
 @Module({
@@ -38,22 +44,33 @@ if (config?.db?.mongo?.activate) {
       isGlobal: true,
       load: [configuration],
     }),
+    ...mongooseModules,
     ...dbModules,
+    HttpModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secretOrPrivateKey:
-          configService.get<string>('auth.jwt.algorithms') && configService.get<string>('auth.jwt.private_key')
-            ? Buffer.from(configService.get<string>('auth.jwt.private_key'), 'base64')
-            : configService.get<string>('auth.jwt.secret'),
+        // secret: configService.get<string>('auth.jwt.secret'),
+        publicKey: Buffer.from(configService.get<string>('auth.jwt.public_key'), 'base64'),
+        privateKey: Buffer.from(configService.get<string>('auth.jwt.private_key'), 'base64'),
+        signOptions: {
+          algorithm:
+            configService.get<string>('auth.jwt.algorithms') === 'ES256'
+              ? 'ES256'
+              : configService.get<string>('auth.jwt.algorithms') === 'ES384'
+              ? 'ES384'
+              : configService.get<string>('auth.jwt.algorithms') === 'ES512'
+              ? 'ES512'
+              : 'RS256',
+        },
       }),
     }),
   ],
   controllers: [AppController],
   exports: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy],
-  providers: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy],
+  providers: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

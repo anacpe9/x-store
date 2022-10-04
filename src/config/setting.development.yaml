@@ -1,5 +1,5 @@
 http:
-  port: 3033
+  port: 4044
   auth:
     basic:
       username: 'user1'

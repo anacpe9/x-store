@@ -1,3 +1,4 @@
+import { ErrorFilter } from './../src/common/filters/error.filter';
 import { closeInMongodConnection } from '../src/common/database/mongo/mongoose-database-test.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
@@ -18,6 +19,9 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.enableShutdownHooks();
+    app.useGlobalFilters(new ErrorFilter());
+
     await app.init();
     httpServer = app.getHttpServer();
   });
