@@ -1,3 +1,4 @@
+import { AuthzService } from './authz/authz.service';
 import { DynamicModule, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -12,8 +13,10 @@ import { JwtIgnoreExpirationStrategy, JwtStrategy } from './authz/jwt.guard';
 import { InitialDataService } from './common/services/initial-data/initial-data.service';
 
 import { Book, BookSchema } from './common/database/schemas/books.schema';
+import { PurchasedBook, PurchasedBookSchema } from './common/database/schemas/purchased-book.schema';
 import configuration from './configurations';
 import { HttpModule } from '@nestjs/axios';
+import { BooksController } from './books/books.controller';
 
 const config = configuration();
 const dbModules: any[] = [];
@@ -36,6 +39,7 @@ if (config?.db?.mongo?.activate) {
       : MongooseDatabaseModule;
   dbModules.push(dbModule);
   mongooseModules.push(MongooseModule.forFeature([{ name: Book.name, schema: BookSchema }]));
+  mongooseModules.push(MongooseModule.forFeature([{ name: PurchasedBook.name, schema: PurchasedBookSchema }]));
 }
 
 @Module({
@@ -68,9 +72,9 @@ if (config?.db?.mongo?.activate) {
       }),
     }),
   ],
-  controllers: [AppController],
-  exports: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy],
-  providers: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService],
+  controllers: [AppController, BooksController],
+  exports: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService, AuthzService],
+  providers: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService, AuthzService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
