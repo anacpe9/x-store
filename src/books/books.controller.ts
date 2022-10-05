@@ -47,7 +47,6 @@ export class BooksController {
     }));
   }
 
-
   @ApiResponse({
     status: 200,
     description: 'Success, Return all book',
@@ -90,17 +89,26 @@ export class BooksController {
   })
   @Authz()
   @Post('buy')
-  public async signup(@Req() req: any, @Body() bookIds: string[]): Promise<{ success: boolean }> {
-    if (!bookIds || !Array.isArray(bookIds) || bookIds.length === 0) {
+  public async signup(
+    @Req() req: any,
+    @Body() payload: { tx: string; bookIds: string[] },
+  ): Promise<{ success: boolean }> {
+    if (!payload || !Array.isArray(payload.bookIds) || payload.bookIds.length === 0) {
       throw new HttpException('Need Book IDs to process', HttpStatus.BAD_REQUEST);
     }
 
+    if (!payload || !payload.tx) {
+      throw new HttpException('Have not transaction.', HttpStatus.BAD_REQUEST);
+    }
+
     const userId = req.user.id;
+    const bookIds = payload.bookIds;
     const now = Date.now();
 
     await this.purchasedBookModel.insertMany(
       bookIds.map((id) => ({
         _id: new mongoose.Types.ObjectId().toHexString(),
+        tx: payload.tx,
         bookId: id,
         userId: userId,
         purchaseDate: now,

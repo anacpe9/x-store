@@ -8,6 +8,9 @@ export class PurchasedBook {
   @Prop({ required: true })
   _id: string;
 
+  @Prop({ required: true, index: true })
+  tx: string;
+
   @Prop({ required: true, trim: true, index: true })
   bookId: string;
 
