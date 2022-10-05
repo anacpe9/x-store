@@ -16,3 +16,5 @@ db:
       username: '%%PG_USERNAME%%'
       password: '%%PG_PASSWORD%%'
       database: '%%PG_DATABASE%%'
+
+wallet: {}

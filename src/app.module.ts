@@ -18,6 +18,7 @@ import configuration from './configurations';
 import { HttpModule } from '@nestjs/axios';
 import { BooksController } from './books/books.controller';
 import { PurchasedController } from './purchased/purchased.controller';
+import { WalletController } from './wallet/wallet.controller';
 
 const config = configuration();
 const dbModules: any[] = [];
@@ -73,7 +74,7 @@ if (config?.db?.mongo?.activate) {
       }),
     }),
   ],
-  controllers: [AppController, BooksController, PurchasedController],
+  controllers: [AppController, BooksController, PurchasedController, WalletController],
   exports: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService, AuthzService],
   providers: [AppService, JwtStrategy, JwtIgnoreExpirationStrategy, InitialDataService, AuthzService],
 })
